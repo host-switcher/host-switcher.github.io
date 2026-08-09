@@ -141,11 +141,15 @@ pre {
   font: 13.5px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace;
   margin: 0 0 1rem;
 }
-pre code { font: inherit; background: none; border: 0; padding: 0; }
+pre code { font: inherit; background: none; border: 0; padding: 0; white-space: inherit; }
 code {
   font: .92em/1 ui-monospace, SFMono-Regular, Menlo, monospace;
   background: var(--paper-soft); border: 1px solid var(--rule);
   padding: .12em .35em; border-radius: 4px;
+  /* A command is one thing. On a phone `sudo nano` broke across two lines and became two chips,
+     which reads as two commands. Every inline span here is short enough that refusing to break it
+     cannot push the page wider — the longest is `sudo nano /etc/hosts`. */
+  white-space: nowrap;
 }
 
 /* Lists ------------------------------------------------------------------- */
