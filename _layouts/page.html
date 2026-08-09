@@ -1,0 +1,14 @@
+---
+layout: default
+---
+
+<!-- Prose pages, so that a Markdown file can be a Markdown file and still land inside the column
+     the rest of the site reads in. The landing page is written as HTML instead, because it is a
+     layout rather than prose: pictures with captions, a hero, and sections that alternate between
+     the text column and the wider one. -->
+<div class="wrap col page">
+  <h1>{{ page.title }}</h1>
+  {% if page.subtitle %}<p class="lede">{{ page.subtitle }}</p>{% endif %}
+  <div class="rule"></div>
+  {{ content }}
+</div>

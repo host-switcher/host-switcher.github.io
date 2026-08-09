@@ -1,0 +1,33 @@
+# The site is built by GitHub Pages' own Jekyll, with no theme and no plugin.
+#
+# No theme, because a theme dictates the appearance and this page has one of its own. No plugin,
+# because the two that would help — a sitemap and a set of meta tags — are four lines and eleven
+# lines of hand-written file respectively, and neither can then be broken by somebody else's
+# release.
+
+title: HostSwitcher
+tagline: A native /etc/hosts manager for macOS
+description: >-
+  Switch /etc/hosts environments from the macOS menu bar. Named sets of entries, one click to
+  switch, and the name cache flushed in the same breath. Free, open source, and native.
+
+url: https://host-switcher.github.io
+baseurl: ""
+
+# Where the product lives. Written once here so that no page has to spell it out.
+repository_url: https://github.com/host-switcher/host-switcher
+
+# The specification of this site is committed beside it, as everything in this project is. It is
+# not a page, so Jekyll must not make one out of it.
+exclude:
+  - specs/
+  - tools/
+  - README.md
+
+# Every page is written by hand; nothing here needs a permalink scheme cleverer than its filename.
+permalink: pretty
+
+# Google Search Console, which is the only measurement this site has: it reports what people
+# searched for and loads nothing into a visitor's browser. Paste the token from the "HTML tag"
+# verification method; while it is empty, no tag is emitted at all.
+google_site_verification: ""

@@ -1,0 +1,5 @@
+# Jekyll's own output, when the site is built locally rather than by GitHub.
+_site/
+.jekyll-cache/
+.sass-cache/
+.DS_Store

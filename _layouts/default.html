@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>{% if page.title %}{{ page.title }} — {{ site.title }}{% else %}{{ site.title }} — {{ site.tagline }}{% endif %}</title>
+<meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+
+<!-- One address for every page, so that the variant with a trailing slash and the variant without
+     do not compete with each other in a search index. -->
+<link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{ site.title }}">
+<meta property="og:title" content="{% if page.title %}{{ page.title }} — {{ site.title }}{% else %}{{ site.title }} — {{ site.tagline }}{% endif %}">
+<meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+<meta property="og:url" content="{{ page.url | replace:'index.html','' | absolute_url }}">
+<meta property="og:image" content="{{ '/assets/img/og.png' | absolute_url }}">
+<meta name="twitter:card" content="summary_large_image">
+
+{% comment %}An empty string is TRUE in Liquid — only nil and false are false — so the emptiness is tested, not the presence.{% endcomment %}{% if site.google_site_verification != "" %}<meta name="google-site-verification" content="{{ site.google_site_verification }}">{% endif %}
+
+<link rel="icon" href="{{ '/assets/img/icon.png' | relative_url }}" type="image/png">
+<link rel="apple-touch-icon" href="{{ '/assets/img/icon.png' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+
+<!-- What kind of thing this page is about, in the form a search engine reads rather than infers. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "HostSwitcher",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "macOS 26",
+  "url": "{{ site.url }}",
+  "downloadUrl": "{{ site.repository_url }}/releases/latest",
+  "codeRepository": "{{ site.repository_url }}",
+  "license": "https://opensource.org/licenses/MIT",
+  "description": {{ site.description | strip_newlines | jsonify }},
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="{{ '/' | relative_url }}">
+      <img src="{{ '/assets/img/icon.png' | relative_url }}" width="28" height="28" alt="">
+      <span>HostSwitcher</span>
+    </a>
+    <nav>
+      <a href="{{ '/#install' | relative_url }}">Install</a>
+      <a href="{{ '/#command-line' | relative_url }}">Command line</a>
+      <a href="{{ '/changelog/' | relative_url }}">Changelog</a>
+      <a href="{{ site.repository_url }}">GitHub&nbsp;&#8599;</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+{{ content }}
+</main>
+
+<footer class="site">
+  <div class="wrap col">
+    <nav>
+      <a href="{{ site.repository_url }}">Source</a>
+      <a href="{{ site.repository_url }}/releases">Releases</a>
+      <a href="{{ '/changelog/' | relative_url }}">Changelog</a>
+      <a href="{{ site.repository_url }}/issues">Issues</a>
+    </nav>
+    <p>Built in the open, with a specification per feature and 922 tests. This page makes no
+      request of its own: no trackers, no analytics, no cookies, and no JavaScript.</p>
+  </div>
+</footer>
+
+</body>
+</html>

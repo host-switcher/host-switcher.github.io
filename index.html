@@ -1,0 +1,185 @@
+---
+layout: default
+description: >-
+  HostSwitcher is a native macOS menu bar app for /etc/hosts. Named sets of entries, one click to
+  switch between production, staging and a local container, and the DNS cache flushed for you.
+---
+
+<div class="wrap hero">
+  <div class="col">
+    <h1>Switch <code>/etc/hosts</code> environments from the menu bar</h1>
+    <div class="rule"></div>
+    <p class="lede">Named sets of entries, one click to switch, and the name cache flushed in the
+      same breath. No <code>sudo nano</code>. No 150&nbsp;MB of Electron.</p>
+  </div>
+  <div class="cta">
+    <a class="btn" href="{{ site.repository_url }}/releases/latest">Download for macOS</a>
+    <span class="meta">Free and open source · macOS 26+ · Apple silicon</span>
+  </div>
+  <div class="notice">
+    <strong>Signed, but not notarized.</strong> macOS refuses a downloaded copy without a word —
+    no window, no error, nothing at all. Clear the quarantine attribute
+    <a href="#install">before the first launch</a>: it is three commands, and the order matters
+    more than the commands do.
+  </div>
+
+  <figure class="shot narrow">
+    <picture>
+      <source srcset="{{ '/assets/img/panel-ordinary-dark.png' | relative_url }}" media="(prefers-color-scheme: dark)">
+      <img src="{{ '/assets/img/panel-ordinary-light.png' | relative_url }}" width="760" height="612"
+           alt="The HostSwitcher menu bar panel: four sets — Home, Development, Staging, Production — each with a checkbox, and their entries beneath them.">
+    </picture>
+    <figcaption>The menu bar panel. A click on a set, and the file changes.</figcaption>
+  </figure>
+</div>
+
+<section id="why">
+  <div class="wrap col">
+    <h2>Why editing <code>/etc/hosts</code> by hand gets old</h2>
+    <p>Developers switch domains between environments several times a day: the same
+      <code>api.example.com</code> has to point now at production, now at staging, now at a local
+      container. Doing that through <code>sudo nano /etc/hosts</code> is slow and error-prone, and
+      after every edit you still have to remember to flush the name cache.</p>
+    <p>The existing solutions either cap the number of entries, or weigh 150&nbsp;MB, or have not
+      been updated in a long time. The niche HostSwitcher fills is native, light, and without
+      limits.</p>
+  </div>
+</section>
+
+<section id="sets">
+  <div class="wrap">
+    <div class="col">
+      <h2>Sets of hosts, and entries you switch one at a time</h2>
+      <p>A set is a named group of entries. Every entry is switched on separately; a set is
+        switched off as a whole. Order is preserved, the count is not limited, and every set you
+        have is on screen at once — no picking one from a list to find out what is in it.</p>
+      <p>The toggle shows the state of the <strong>file</strong>, not an intention: if applying
+        fails, it goes back.</p>
+    </div>
+    <figure class="shot">
+      <picture>
+        <source srcset="{{ '/assets/img/editor-ordinary-dark.png' | relative_url }}" media="(prefers-color-scheme: dark)">
+        <img src="{{ '/assets/img/editor-ordinary-light.png' | relative_url }}" width="1280" height="992" loading="lazy"
+             alt="The editor window: four sets as sections of one list, each entry a row of address, host names and a note.">
+      </picture>
+      <figcaption>Every set and every entry, in one list.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="safe">
+  <div class="wrap col">
+    <h2>It does not touch the rest of your hosts file</h2>
+    <p>Everything outside the managed block is preserved byte for byte: spaces, tabs, the
+      line-break style, the presence of a final newline. A backup is written before every change,
+      and an untouchable snapshot is kept of the file as it was before the very first one.</p>
+    <p>A disabled entry is not deleted. It stays in the file, commented out and labelled, so the
+      file always shows the whole picture:</p>
+<pre><code># &gt;&gt;&gt; host-switcher managed block — do not edit &gt;&gt;&gt;
+# &gt;&gt;&gt; host-switcher node: Work
+127.0.0.1 api.example.com
+# host-switcher off: 10.0.0.1 db.example.com
+# &lt;&lt;&lt; host-switcher &lt;&lt;&lt;</code></pre>
+  </div>
+</section>
+
+<section id="refuses">
+  <div class="wrap">
+    <div class="col">
+      <h2>It refuses to make things worse</h2>
+      <p>An invalid line rejects the whole apply, naming the line number and the reason. One host
+        name pointing at two different addresses in two enabled sets blocks applying as well — the
+        resolver would have silently picked one of them, and which one is not something you get to
+        know.</p>
+    </div>
+    <figure class="shot">
+      <picture>
+        <source srcset="{{ '/assets/img/editor-conflict-dark.png' | relative_url }}" media="(prefers-color-scheme: dark)">
+        <img src="{{ '/assets/img/editor-conflict-light.png' | relative_url }}" width="1280" height="992" loading="lazy"
+             alt="The editor refusing to apply: one host name claimed by two enabled sets, with the reason on each row and a summary at the foot of the window.">
+      </picture>
+      <figcaption>One name, two sets, two addresses. Applying is blocked until you decide.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="command-line">
+  <div class="wrap col">
+    <h2>Switch hosts from a script, without a password</h2>
+    <p><code>hostswitcher on Staging</code> switches a set and applies it. <code>status</code>
+      names every set and what the system is actually using — green for what is in effect, red for
+      what is not, and no colour at all when the output is a pipe.</p>
+<pre><code>$ hostswitcher status
+Work                         on
+  127.0.0.1 api.example.com  on
+  10.0.0.1  db.example.com   off
+Staging                      off
+  127.0.0.1 api.staging      off</code></pre>
+    <p>Every outcome has an exit code a script can act on, including a separate one for “this
+      machine was never set up”, which is a different problem from a request that was refused.
+      Reading needs no privileges and works with the app closed; switching needs no password.
+      Asking twice is not an error, so a <code>Makefile</code> target can use it.</p>
+  </div>
+</section>
+
+<section id="updates">
+  <div class="wrap">
+    <div class="col">
+      <h2>It updates itself, and says so before it does</h2>
+      <p>Once a day the app asks GitHub whether a newer release has been published. If there is
+        one, the panel gains a single row; press it and the product fetches that release, checks
+        it, replaces itself and comes back at the new version — no browser, no download, no
+        Gatekeeper refusal.</p>
+      <p>The check is one anonymous request carrying nothing about you or your sets, and a switch
+        in the settings stops the product going out on its own, leaving a button.</p>
+    </div>
+    <figure class="shot">
+      <picture>
+        <source srcset="{{ '/assets/img/settings-update-dark.png' | relative_url }}" media="(prefers-color-scheme: dark)">
+        <img src="{{ '/assets/img/settings-update-light.png' | relative_url }}" width="2320" height="1360" loading="lazy"
+             alt="The settings window in two columns: launch at login, interface language, hotkey and command line on the left; updates and a disable-all action on the right.">
+      </picture>
+      <figcaption>The settings page says what the product does on its own, and lets you stop it.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="install">
+  <div class="wrap col">
+    <h2>Installing it, the first time</h2>
+    <p>The package is signed, but not notarized — the certificate behind it is a development one,
+      not a Developer ID. macOS therefore refuses to start it as downloaded, and the refusal is not
+      a message: nothing happens at all.</p>
+<pre><code>xattr -dr com.apple.quarantine ~/Downloads/HostSwitcher.zip
+ditto -x -k ~/Downloads/HostSwitcher.zip /Applications
+open /Applications/HostSwitcher.app</code></pre>
+    <p><strong>Clear the attribute before you open it, not after.</strong> macOS records a refusal
+      against the path: once a copy at that path has been refused, nothing placed there starts
+      afterwards — not the same copy with the attribute cleared, not a reinstall, not even a
+      correctly signed build. Restarting the machine clears the record; so does installing under a
+      different path.</p>
+    <p>The app has no icon in the Dock — it lives in the menu bar. Approve the background item when
+      macOS asks, and it can apply changes.</p>
+    <p class="dim"><strong>This is the last installation you do by hand.</strong> From here the
+      product finds newer versions itself: what it downloads never carries the quarantine
+      attribute, so nothing refuses it.</p>
+  </div>
+</section>
+
+<section id="limits">
+  <div class="wrap col">
+    <h2>What it does not do</h2>
+    <ul class="plain">
+      <li><strong>It is not notarized yet.</strong> Until there is a Developer ID behind it, the
+        first launch takes the three commands above.</li>
+      <li><strong>There is no undo.</strong> Editing is direct; a deleted entry is gone, though the
+        app asks before deleting a set or an entry.</li>
+      <li><strong>Sets are a flat list.</strong> No groups, no nesting, no exclusive mode.</li>
+      <li><strong>macOS 26 or newer, Apple silicon.</strong> The privileged helper uses a
+        registration API that older systems do not have.</li>
+      <li><strong>Uninstalling leaves one trace that is not ours to remove.</strong> The system's
+        record of background items survives; nothing of ours runs, but the entry stays visible in
+        System Settings. macOS offers no way to delete a single record.</li>
+    </ul>
+  </div>
+</section>
