@@ -20,7 +20,6 @@ repository_url: https://github.com/host-switcher/host-switcher
 # The specification of this site is committed beside it, as everything in this project is. It is
 # not a page, so Jekyll must not make one out of it.
 exclude:
-  - specs/
   - tools/
   - README.md
 

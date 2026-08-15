@@ -13,7 +13,6 @@ The website for [HostSwitcher](https://github.com/host-switcher/host-switcher), 
 | `assets/css/style.css` | the whole of the styling: no framework, no web font, no JavaScript |
 | `assets/img/` | screenshots produced by `make preview` in the product's repository |
 | `tools/make-og.swift` | draws the 1200×630 card a shared link unfurls into |
-| `the specifications/` | the specification this site was built from, and the decisions behind it |
 
 ## Building it
 
