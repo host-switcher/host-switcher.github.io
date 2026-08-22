@@ -1,0 +1,7 @@
+# What the newest release is. Read by the product, written by its release.
+#
+# Two fields are read and everything else is ignored, which is what lets this
+# grow later without stranding the copies already installed.
+version = "0.2.1"
+archive = "https://host-switcher.github.io/updates/rs/HostSwitcher-0.2.1.zip"
+page = "https://github.com/host-switcher/host-switcher-rs/releases/tag/v0.2.1"
