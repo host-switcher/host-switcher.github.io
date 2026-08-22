@@ -32,9 +32,9 @@
   "@type": "SoftwareApplication",
   "name": "HostSwitcher",
   "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "macOS 26",
+  "operatingSystem": "macOS 13",
   "url": "{{ site.url }}",
-  "downloadUrl": "{{ site.repository_url }}/releases/latest",
+  "downloadUrl": "{{ '/updates/rs/HostSwitcher.zip' | absolute_url }}",
   "codeRepository": "{{ site.repository_url }}",
   "license": "https://opensource.org/licenses/MIT",
   "description": {{ site.description | strip_newlines | jsonify }},
@@ -52,7 +52,7 @@
     </a>
     <nav>
       <a href="{{ '/#install' | relative_url }}">Install</a>
-      <a href="{{ '/#command-line' | relative_url }}">Command line</a>
+      <a href="{{ '/#updates' | relative_url }}">Updates</a>
       <a href="{{ '/changelog/' | relative_url }}">Changelog</a>
       <a href="{{ site.repository_url }}">GitHub&nbsp;&#8599;</a>
     </nav>
@@ -71,8 +71,8 @@
       <a href="{{ '/changelog/' | relative_url }}">Changelog</a>
       <a href="{{ site.repository_url }}/issues">Issues</a>
     </nav>
-    <p>Built in the open, with a specification per feature and 922 tests. This page makes no
-      request of its own: no trackers, no analytics, no cookies, and no JavaScript.</p>
+    <p>Built in the open, with a specification per capability and a gate for every principle. This
+      page makes no request of its own: no trackers, no analytics, no cookies, and no JavaScript.</p>
   </div>
 </footer>
 

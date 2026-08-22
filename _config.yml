@@ -15,7 +15,7 @@ url: https://host-switcher.github.io
 baseurl: ""
 
 # Where the product lives. Written once here so that no page has to spell it out.
-repository_url: https://github.com/host-switcher/host-switcher
+repository_url: https://github.com/host-switcher/host-switcher-rs
 
 # The specification of this site is committed beside it, as everything in this project is. It is
 # not a page, so Jekyll must not make one out of it.

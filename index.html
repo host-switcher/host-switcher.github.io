@@ -7,34 +7,58 @@ description: >-
 
 <div class="wrap hero">
   <div class="col">
+    <p class="eyebrow">// native &middot; menu bar &middot; no Electron</p>
     <h1>Switch <code>/etc/hosts</code> environments from the menu bar</h1>
     <div class="rule"></div>
     <p class="lede">Named sets of entries, one click to switch, and the name cache flushed in the
       same breath. No <code>sudo nano</code>. No 150&nbsp;MB of Electron.</p>
   </div>
   <div class="cta">
-    <a class="btn" href="{{ site.repository_url }}/releases/latest">Download for macOS</a>
-    <span class="meta">Free and open source · macOS 26+ · Apple silicon</span>
+    <a class="btn" href="{{ '/updates/rs/HostSwitcher.zip' | relative_url }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 20h16"/></svg>
+      Download for macOS</a>
+    <span class="meta">free &amp; open source &middot; macOS 13+ &middot; Apple silicon</span>
   </div>
   <div class="notice">
-    <strong>Signed, but not notarized.</strong> macOS refuses a downloaded copy without a word —
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+    <div><strong>Signed, but not notarized.</strong> macOS refuses a downloaded copy without a word —
     no window, no error, nothing at all. Clear the quarantine attribute
     <a href="#install">before the first launch</a>: it is three commands, and the order matters
-    more than the commands do.
+    more than the commands do.</div>
+  </div>
+
+  <div class="term hero-term">
+    <div class="term-bar"><i></i><i></i><i></i><span>~/Library/Application&nbsp;Support/HostSwitcher/sets</span></div>
+<pre><code><span class="dim"># Yours to edit. The product reads this file and
+# writes the managed block of /etc/hosts from it.</span>
+
+[[sets]]
+name = "Development"
+entries = [
+  { on = <span class="on">true</span>,  line = "0.0.0.0 api.example.com" },
+  { on = <span class="off">false</span>, line = "0.0.0.0 mail.example.com" },
+]
+
+[[sets]]
+name = "Staging"
+entries = [
+  { on = <span class="on">true</span>, line = "0.0.0.0 api.staging.example.com" },
+]</code></pre>
   </div>
 
   <figure class="shot narrow">
     <picture>
       <source srcset="{{ '/assets/img/panel-ordinary-dark.png' | relative_url }}" media="(prefers-color-scheme: dark)">
-      <img src="{{ '/assets/img/panel-ordinary-light.png' | relative_url }}" width="760" height="612"
-           alt="The HostSwitcher menu bar panel: four sets — Home, Development, Staging, Production — each with a checkbox, and their entries beneath them.">
+      <img src="{{ '/assets/img/panel-ordinary-light.png' | relative_url }}" width="640" height="884"
+           alt="The HostSwitcher menu bar panel: four sets — Development, Home, Staging, Production — each a heading with an in-force count and a state dot, their entries below with a switch each.">
     </picture>
-    <figcaption>The menu bar panel. A click on a set, and the file changes.</figcaption>
+    <figcaption>The menu bar panel. Every set and entry at once; a switch, and the file changes.</figcaption>
   </figure>
 </div>
 
 <section id="why">
   <div class="wrap col">
+    <p class="eyebrow">// why editing by hand gets old</p>
     <h2>Why editing <code>/etc/hosts</code> by hand gets old</h2>
     <p>Developers switch domains between environments several times a day: the same
       <code>api.example.com</code> has to point now at production, now at staging, now at a local
@@ -49,26 +73,28 @@ description: >-
 <section id="sets">
   <div class="wrap">
     <div class="col">
+      <p class="eyebrow">// one list, whole picture</p>
       <h2>Sets of hosts, and entries you switch one at a time</h2>
-      <p>A set is a named group of entries. Every entry is switched on separately; a set is
-        switched off as a whole. Order is preserved, the count is not limited, and every set you
-        have is on screen at once — no picking one from a list to find out what is in it.</p>
+      <p>A set is a named group of entries, and every entry has a switch of its own. Order is
+        preserved, the count is not limited, and the panel shows every set you have at once — the
+        editor is where you pick one and work on what is in it.</p>
       <p>The toggle shows the state of the <strong>file</strong>, not an intention: if applying
         fails, it goes back.</p>
     </div>
     <figure class="shot">
       <picture>
         <source srcset="{{ '/assets/img/editor-ordinary-dark.png' | relative_url }}" media="(prefers-color-scheme: dark)">
-        <img src="{{ '/assets/img/editor-ordinary-light.png' | relative_url }}" width="1280" height="992" loading="lazy"
-             alt="The editor window: four sets as sections of one list, each entry a row of address, host names and a note.">
+        <img src="{{ '/assets/img/editor-ordinary-light.png' | relative_url }}" width="1280" height="899" loading="lazy"
+             alt="The editor window: a list of sets on the left, and the chosen set's entries on the right — each entry one line with a switch of its own.">
       </picture>
-      <figcaption>Every set and every entry, in one list.</figcaption>
+      <figcaption>The editor — sets on the left, the chosen set's entries on the right.</figcaption>
     </figure>
   </div>
 </section>
 
-<section id="safe">
+<section id="safe" class="tint">
   <div class="wrap col">
+    <p class="eyebrow">// it breaks nothing</p>
     <h2>It does not touch the rest of your hosts file</h2>
     <p>Everything outside the managed block is preserved byte for byte: spaces, tabs, the
       line-break style, the presence of a final newline. A backup is written before every change,
@@ -77,82 +103,73 @@ description: >-
       file always shows the whole picture:</p>
 <pre><code># &gt;&gt;&gt; host-switcher managed block — do not edit &gt;&gt;&gt;
 # &gt;&gt;&gt; host-switcher node: Work
-127.0.0.1 api.example.com
-# host-switcher off: 10.0.0.1 db.example.com
+<span class="live">127.0.0.1 api.example.com</span>
+<span class="off"># host-switcher off: 10.0.0.1 db.example.com</span>
 # &lt;&lt;&lt; host-switcher &lt;&lt;&lt;</code></pre>
+    <p class="dim">This block is the projection of your <code>sets</code> file — the product writes it,
+      and never reads it back.</p>
   </div>
 </section>
 
 <section id="refuses">
   <div class="wrap">
     <div class="col">
+      <p class="eyebrow">// it refuses to make things worse</p>
       <h2>It refuses to make things worse</h2>
       <p>An invalid line rejects the whole apply, naming the line number and the reason. One host
-        name pointing at two different addresses in two enabled sets blocks applying as well — the
-        resolver would have silently picked one of them, and which one is not something you get to
-        know.</p>
+        name given two different addresses of the same family — in a single set, or across two
+        enabled ones — blocks applying too: the resolver would have silently picked one of them, and
+        which one is not something you get to know.</p>
     </div>
     <figure class="shot">
       <picture>
         <source srcset="{{ '/assets/img/editor-conflict-dark.png' | relative_url }}" media="(prefers-color-scheme: dark)">
-        <img src="{{ '/assets/img/editor-conflict-light.png' | relative_url }}" width="1280" height="992" loading="lazy"
-             alt="The editor refusing to apply: one host name claimed by two enabled sets, with the reason on each row and a summary at the foot of the window.">
+        <img src="{{ '/assets/img/editor-conflict-light.png' | relative_url }}" width="1280" height="899" loading="lazy"
+             alt="The editor refusing to apply: one host name claimed by two enabled sets, the reason in red under the entry and an amber summary at the foot of the window.">
       </picture>
       <figcaption>One name, two sets, two addresses. Applying is blocked until you decide.</figcaption>
     </figure>
   </div>
 </section>
 
-<section id="command-line">
-  <div class="wrap col">
-    <h2>Switch hosts from a script, without a password</h2>
-    <p><code>hostswitcher on Staging</code> switches a set and applies it. <code>status</code>
-      names every set and what the system is actually using — green for what is in effect, red for
-      what is not, and no colour at all when the output is a pipe.</p>
-<pre><code>$ hostswitcher status
-Work                         on
-  127.0.0.1 api.example.com  on
-  10.0.0.1  db.example.com   off
-Staging                      off
-  127.0.0.1 api.staging      off</code></pre>
-    <p>Every outcome has an exit code a script can act on, including a separate one for “this
-      machine was never set up”, which is a different problem from a request that was refused.
-      Reading needs no privileges and works with the app closed; switching needs no password.
-      Asking twice is not an error, so a <code>Makefile</code> target can use it.</p>
-  </div>
-</section>
-
 <section id="updates">
   <div class="wrap">
     <div class="col">
+      <p class="eyebrow">// updates itself, and says so first</p>
       <h2>It updates itself, and says so before it does</h2>
-      <p>Once a day the app asks GitHub whether a newer release has been published. If there is
-        one, the panel gains a single row; press it and the product fetches that release, checks
-        it, replaces itself and comes back at the new version — no browser, no download, no
-        Gatekeeper refusal.</p>
+      <p>Once a day the app asks whether a newer release has been published. If there is one, the
+        settings gain a row: press Install, and the product fetches that release, checks it against
+        what its own privileged helper would accept, and swaps itself into place — no browser, no
+        Gatekeeper refusal. The new version starts the next time you open the app.</p>
       <p>The check is one anonymous request carrying nothing about you or your sets, and a switch
         in the settings stops the product going out on its own, leaving a button.</p>
     </div>
-    <figure class="shot">
+    <figure class="shot mid">
       <picture>
         <source srcset="{{ '/assets/img/settings-update-dark.png' | relative_url }}" media="(prefers-color-scheme: dark)">
-        <img src="{{ '/assets/img/settings-update-light.png' | relative_url }}" width="2320" height="1360" loading="lazy"
-             alt="The settings window in two columns: launch at login, interface language, hotkey and command line on the left; updates and a disable-all action on the right.">
+        <img src="{{ '/assets/img/settings-update-light.png' | relative_url }}" width="696" height="760" loading="lazy"
+             alt="The settings: switches to drop the system and browser name caches after a change, launch at login, and a check for newer versions with an Install button.">
       </picture>
-      <figcaption>The settings page says what the product does on its own, and lets you stop it.</figcaption>
+      <figcaption>The settings say what the product does on its own — including the update check — and let you stop it.</figcaption>
     </figure>
   </div>
 </section>
 
-<section id="install">
+<section id="install" class="tint">
   <div class="wrap col">
+    <p class="eyebrow">// first launch, once</p>
     <h2>Installing it, the first time</h2>
     <p>The package is signed, but not notarized — the certificate behind it is a development one,
       not a Developer ID. macOS therefore refuses to start it as downloaded, and the refusal is not
       a message: nothing happens at all.</p>
-<pre><code>xattr -dr com.apple.quarantine ~/Downloads/HostSwitcher.zip
-ditto -x -k ~/Downloads/HostSwitcher.zip /Applications
-open /Applications/HostSwitcher.app</code></pre>
+
+    <div class="term">
+      <div class="term-bar"><i></i><i></i><i></i><span>zsh</span></div>
+<pre><code><span class="prompt">$</span> xattr -dr com.apple.quarantine ~/Downloads/HostSwitcher.zip
+<span class="prompt">$</span> ditto -x -k ~/Downloads/HostSwitcher.zip /Applications
+<span class="prompt">$</span> open /Applications/HostSwitcher.app</code></pre>
+    </div>
+
     <p><strong>Clear the attribute before you open it, not after.</strong> macOS records a refusal
       against the path: once a copy at that path has been refused, nothing placed there starts
       afterwards — not the same copy with the attribute cleared, not a reinstall, not even a
@@ -168,6 +185,7 @@ open /Applications/HostSwitcher.app</code></pre>
 
 <section id="limits">
   <div class="wrap col">
+    <p class="eyebrow">// honest about the edges</p>
     <h2>What it does not do</h2>
     <ul class="plain">
       <li><strong>It is not notarized yet.</strong> Until there is a Developer ID behind it, the
@@ -175,11 +193,13 @@ open /Applications/HostSwitcher.app</code></pre>
       <li><strong>There is no undo.</strong> Editing is direct; a deleted entry is gone, though the
         app asks before deleting a set or an entry.</li>
       <li><strong>Sets are a flat list.</strong> No groups, no nesting, no exclusive mode.</li>
-      <li><strong>macOS 26 or newer, Apple silicon.</strong> The privileged helper uses a
-        registration API that older systems do not have.</li>
+      <li><strong>macOS 13 or newer.</strong> The privileged helper registers through an API
+        older systems do not have; the published build is Apple silicon.</li>
+      <li><strong>Not for the Mac App Store.</strong> The sandbox forbids a privileged helper —
+        the exact requirement that crippled a competitor.</li>
       <li><strong>Uninstalling leaves one trace that is not ours to remove.</strong> The system's
         record of background items survives; nothing of ours runs, but the entry stays visible in
-        System Settings. macOS offers no way to delete a single record.</li>
+        System Settings.</li>
     </ul>
   </div>
 </section>
